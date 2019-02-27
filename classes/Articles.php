@@ -1,6 +1,6 @@
 <?php
 require_once 'Categories.php';
-require_once '../perfectfunctions.inc.php';
+
 
 
 class Articles
@@ -140,7 +140,7 @@ class Articles
             if ($category['id'] === $selectedCategoryId) {
                 $ret .= "<option value=\"{$category['id']}\" selected ='selected'>{$category['name']}</option>";
             } else {
-                $ret .="<option value=\"{$category['id']}\">{$category['name']}</option>";
+                $ret .= "<option value=\"{$category['id']}\">{$category['name']}</option>";
             }
         }
 
@@ -154,7 +154,7 @@ class Articles
         <html lang="ru">
         <?php
 
-// POST  заменить / if isset перенести из метода / переменной а быть не должно
+        // POST  заменить / if isset перенести из метода / переменной а быть не должно
         $articleSaved = false;
 
         if (isset($_POST['title'])
@@ -221,92 +221,94 @@ class Articles
         <?php
     }
 
-public  function editArticle(){
+    public function editArticle()
+    {
 
-if (isset($_POST['title'])
-    &&($_POST['category_id'])
-    &&($_POST['date'])
-    &&($_POST['text']))
-{
-    $title = $this->connect->real_escape_string($_POST['title']);
-    $id = $this->connect->real_escape_string($_POST['id']);
-    $date = $this->connect->real_escape_string($_POST['date']);
-    $text = $this->connect->real_escape_string($_POST['text']);
-    $category_id = $this->connect->real_escape_string($_POST['category_id']);
+        if (isset($_POST['title'])
+            && ($_POST['category_id'])
+            && ($_POST['date'])
+            && ($_POST['text'])) {
+            $title = $this->connect->real_escape_string($_POST['title']);
+            $id = $this->connect->real_escape_string($_POST['id']);
+            $date = $this->connect->real_escape_string($_POST['date']);
+            $text = $this->connect->real_escape_string($_POST['text']);
+            $category_id = $this->connect->real_escape_string($_POST['category_id']);
 
-    $sql = "UPDATE `articles` SET `title`='{$title}',`date`='{$date}',`text`='{$text}',`category_id`='{$category_id}' WHERE `id`={$id}";
+            $sql = "UPDATE `articles` SET `title`='{$title}',`date`='{$date}',`text`='{$text}',`category_id`='{$category_id}' WHERE `id`={$id}";
 
-    if ($result = $this->connect->query($sql)) {
-        echo 'Статья была изменена';
-    } else {
-        echo 'Извините, возникла проблема в работе сайта.';
-        echo $this->connect->error;
-        exit;
+            if ($result = $this->connect->query($sql)) {
+                echo 'Статья была изменена';
+            } else {
+                echo 'Извините, возникла проблема в работе сайта.';
+                echo $this->connect->error;
+                exit;
+            }
+        } else {
+
+            $sql = "SELECT * FROM articles WHERE id={$_GET['id']}";
+
+            if (!$result = $this->connect->query($sql)) {
+                echo 'Извините, возникла проблема в работе сайта.';
+                echo $this->connect->error;
+                exit;
+            }
+            $a = $result->fetch_assoc();
+
+
+            ?>
+
+            <html lang="ru">
+            <?php
+            head();
+            ?>
+            <body>
+
+            <?php
+
+            showMenu();
+            ?>
+            <main class="main">
+                <div class="container">
+                    <h1 class="title">Main page title</h1>
+                    <div class="row">
+                        <div class="col col--center">
+                            <a href=""></a>
+
+                            <form action="../admin/edit_article.php" method="post">
+                                <input type="hidden" name="id" value="<?= $a['id'] ?>">
+                                <label for="title">Заголовок</label><br>
+                                <input type="text" name="title" size="70" value="<?php echo $a['title']; ?>"><br><br>
+                                <label for="date">Дата</label><br>
+                                <input type="text" name="date" size="10 " maxlength="10"
+                                       value="<?php echo $a['date']; ?>"><br><br>
+                                <label for="category">Ктегория</label><br>
+                                <?php
+                                $category1 = new Categories($this->connect);
+                                $category1->selectCategories($a['category_id']);
+                                ?><br><br>
+                                <label for="text">Текст</label><br>
+                                <textarea name="text" cols="100"
+                                          rows="10"> <?php echo $a['text']; ?> </textarea><br><br>
+                                <input type="submit" name="submit"><br><br>
+                            </form>
+                        </div>
+                        <?php $category = new Categories($this->connect);
+                        $category->showCategories(); ?>
+                    </div>
+                </div>
+
+            </main>
+            <footer class="footer">
+                <div class="container">
+                    <div>Copyright &copy; 2018</div>
+                </div>
+            </footer>
+            </body>
+            </html>
+        <?
+        }
+
     }
-}
-else{
-
-$sql = "SELECT * FROM articles WHERE id={$_GET['id']}";
-
-if (!$result = $this->connect->query($sql)) {
-    echo 'Извините, возникла проблема в работе сайта.';
-    echo $this->connect -> error;
-    exit;
-}
-$a = $result->fetch_assoc();
-
-
-?>
-
-<html lang="ru">
-<?php
-head();
-?>
-<body>
-
-<?php
-
-showMenu();
-?>
-<main class="main">
-    <div class="container">
-        <h1 class="title">Main page title</h1>
-        <div class="row">
-            <div class="col col--center">
-                <a href=""></a>
-
-                <form action="../admin/edit_article.php" method="post">
-                    <input type="hidden" name="id" value="<?= $a['id']?>">
-                    <label for="title">Заголовок</label><br>
-                    <input type="text" name="title" size="70" value="<?php echo $a['title'];?>"><br><br>
-                    <label for="date">Дата</label><br>
-                    <input type="text" name="date" size="10 " maxlength="10" value="<?php echo $a['date'];?>"><br><br>
-                    <label for="category">Ктегория</label><br>
-                    <?php
-                    $category1=new Categories($this->connect);
-                    $category1->selectCategories($a['category_id']);
-                    ?><br><br>
-                    <label for="text">Текст</label><br>
-                    <textarea name="text" cols="100" rows="10"> <?php echo $a['text'];?> </textarea><br><br>
-                    <input type="submit" name="submit"><br><br>
-                </form>
-            </div>
-            <?php  $category=new Categories($this->connect);
-            $category->showCategories();?>
-        </div>
-    </div>
-
-</main>
-<footer class="footer">
-    <div class="container">
-        <div>Copyright &copy; 2018</div>
-    </div>
-</footer>
-</body>
-</html>
-<?}
-
-}
 
 }
 
