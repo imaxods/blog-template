@@ -2,7 +2,6 @@
 require_once 'Categories.php';
 
 
-
 class Articles
 {
 
@@ -150,166 +149,98 @@ class Articles
 
     public function addArticle()
     {
-        ?>
-        <html lang="ru">
-        <?php
+
 
         // POST  заменить / if isset перенести из метода / переменной а быть не должно
         $articleSaved = false;
 
-        if (isset($_POST['title'])
-            && isset($_POST['category_id'])
-            && isset($_POST['date'])
-            && isset($_POST['text'])
-        ) {
 
-            $title = $this->connect->real_escape_string($_POST['title']);
-            $category = $this->connect->real_escape_string($_POST['category_id']);
-            $date = $this->connect->real_escape_string($_POST['date']);
-            $text = $this->connect->real_escape_string($_POST['text']);
-
-            $sql = "INSERT INTO `articles` (`title`, `date`, `text`, `category_id`) VALUES ('{$title}', '{$date}','{$text}','{$category}')";
-
-            if ($result = $this->connect->query($sql)) {
-                echo 'Cтатья была добавлена';
-                $articleSaved = true;
-            } else {
-                echo 'Извините, возникла проблема в работе сайта.';
-                echo $this->connect->error;
-                exit;
-            }
-        }
+        $category1 = new Categories($this->connect);
 
 
-        ?>
-        <body>
-
-        <main class="main">
-            <div class="container">
-                <h1 class="title">Main page title</h1>
-                <div class="row">
-                    <div class="col col--center">
-                        <?php
-                        if (true === $articleSaved) {
-                            echo 'Cтатья была добавлена';
-                        } else {
-                            ?>
-                            <form action="../admin/add_article.php" method="post">
+        if (true === $articleSaved) {
+            echo 'Cтатья была добавлена';
+        } else {
+            $ret = '';
+            $ret .= '<form action="../admin/add_article.php" method="post">
                                 <label for="title">Заголовок</label><br>
                                 <input type="text" name="title" size="70"><br><br>
                                 <label for="category">Категория</label><br>
-                                <?php echo $this->selectCategories(); ?><br><br>
+                                <?php echo $this->' . $category1->selectCategories() . '<br><br>
                                 <label for="date">Дата</label><br>
                                 <input type="text" name="date" size="10" maxlength="10"><br><br>
                                 <label for="text">Текст</label><br>
                                 <textarea name="text" cols="100" rows="10"></textarea><br><br>
                                 <input type="submit" name="submit"><br><br>
-                            </form>
-                        <?php } ?>
-                    </div
-                </div>
-            </div>
+                            </form> ';
+        }
+        return $ret;
+    }
 
-        </main>
-        <footer class="footer">
-            <div class="container">
-                <div>Copyright &copy; 2018</div>
-            </div>
-        </footer>
-        </body>
-        </html>
-        <?php
+    public function updateArticle()
+    {
+        $title = $this->connect->real_escape_string($_POST['title']);
+        $id = $this->connect->real_escape_string($_POST['id']);
+        $date = $this->connect->real_escape_string($_POST['date']);
+        $text = $this->connect->real_escape_string($_POST['text']);
+        $category_id = $this->connect->real_escape_string($_POST['category_id']);
+
+        $sql = "UPDATE `articles` SET `title`='{$title}',`date`='{$date}',`text`='{$text}',`category_id`='{$category_id}' WHERE `id`={$id}";
+
+        if ($result = $this->connect->query($sql)) {
+            echo 'Статья была изменена';
+        } else {
+            echo 'Извините, возникла проблема в работе сайта.';
+            echo $this->connect->error;
+            exit;
+        }
+
     }
 
     public function editArticle()
     {
 
-        if (isset($_POST['title'])
-            && ($_POST['category_id'])
-            && ($_POST['date'])
-            && ($_POST['text'])) {
-            $title = $this->connect->real_escape_string($_POST['title']);
-            $id = $this->connect->real_escape_string($_POST['id']);
-            $date = $this->connect->real_escape_string($_POST['date']);
-            $text = $this->connect->real_escape_string($_POST['text']);
-            $category_id = $this->connect->real_escape_string($_POST['category_id']);
 
-            $sql = "UPDATE `articles` SET `title`='{$title}',`date`='{$date}',`text`='{$text}',`category_id`='{$category_id}' WHERE `id`={$id}";
+        $sql = "SELECT * FROM articles WHERE id={$_GET['id']}";
 
-            if ($result = $this->connect->query($sql)) {
-                echo 'Статья была изменена';
-            } else {
-                echo 'Извините, возникла проблема в работе сайта.';
-                echo $this->connect->error;
-                exit;
-            }
-        } else {
-
-            $sql = "SELECT * FROM articles WHERE id={$_GET['id']}";
-
-            if (!$result = $this->connect->query($sql)) {
-                echo 'Извините, возникла проблема в работе сайта.';
-                echo $this->connect->error;
-                exit;
-            }
-            $a = $result->fetch_assoc();
-
-
-            ?>
-
-            <html lang="ru">
-            <?php
-            head();
-            ?>
-            <body>
-
-            <?php
-
-            showMenu();
-            ?>
-            <main class="main">
-                <div class="container">
-                    <h1 class="title">Main page title</h1>
-                    <div class="row">
-                        <div class="col col--center">
-                            <a href=""></a>
-
-                            <form action="../admin/edit_article.php" method="post">
-                                <input type="hidden" name="id" value="<?= $a['id'] ?>">
+        if (!$result = $this->connect->query($sql)) {
+            echo 'Извините, возникла проблема в работе сайта.';
+            echo $this->connect->error;
+            exit;
+        }
+        $res = $result->fetch_assoc();
+        $ret = '';
+        $category1 = new Categories($this->connect);
+        $ret .= ' <form action="../admin/edit_article.php" method="post">
+                                <input type="hidden" name="id" value="' .
+            $res['id'] .
+            '">
                                 <label for="title">Заголовок</label><br>
-                                <input type="text" name="title" size="70" value="<?php echo $a['title']; ?>"><br><br>
+                                <input type="text" name="title" size="70" value=" ' .
+            $res['title'] .
+            '"><br><br>
                                 <label for="date">Дата</label><br>
                                 <input type="text" name="date" size="10 " maxlength="10"
-                                       value="<?php echo $a['date']; ?>"><br><br>
-                                <label for="category">Ктегория</label><br>
-                                <?php
-                                $category1 = new Categories($this->connect);
-                                $category1->selectCategories($a['category_id']);
-                                ?><br><br>
+                                       value="' .
+            $res['date'] .
+            '"><br><br>
+                                <label for="category">Ктегория</label><br>' .
+
+
+            $category1->selectCategories($res['category_id']) .
+            ' <br><br>
                                 <label for="text">Текст</label><br>
                                 <textarea name="text" cols="100"
-                                          rows="10"> <?php echo $a['text']; ?> </textarea><br><br>
+                                          rows="10"> ' .
+            $res['text'] .
+            ' </textarea><br><br>
                                 <input type="submit" name="submit"><br><br>
-                            </form>
-                        </div>
-                        <?php $category = new Categories($this->connect);
-                        $category->showCategories(); ?>
-                    </div>
-                </div>
+                            </form>';
 
-            </main>
-            <footer class="footer">
-                <div class="container">
-                    <div>Copyright &copy; 2018</div>
-                </div>
-            </footer>
-            </body>
-            </html>
-        <?
-        }
 
+        return $ret;
     }
-
 }
 
-?>
+
+

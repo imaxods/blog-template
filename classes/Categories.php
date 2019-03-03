@@ -160,99 +160,63 @@ class Categories
                 exit;
             }
         } else {
-            ?>
+            $ret = '';
 
-            <html lang="ru">
-            <body>
-            <main class="main">
-                <div class="container">
-                    <h1 class="title">Main page title</h1>
-                    <div class="row">
-                        <div class="col col--center">
-                            <a href=""></a>
-                            <form action="../admin/add_category.php" method="post">
+
+            $ret .= ' <form action="../admin/add_category.php" method="post">
                                 <label for="category">Категория</label><br>
                                 <input type="text" name="name" size="10" maxlength="10"><br><br>
-                                <input type="submit" name="submit"><br><br>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+                                <input type="submit" name="submit"><br><br>';
 
-            </main>
-            <footer class="footer">
-                <div class="container">
-                    <div>Copyright &copy; 2018</div>
-                </div>
-            </footer>
-            </body>
-            </html>
+            return $ret;
 
-        <?php
         }
     }
-public function editCategory(){
 
-if (isset($_POST['name'])
-        &&($_POST['id']))
-{
-    $name = $this->connect->real_escape_string($_POST['name']);
-    $id = $this->connect->real_escape_string($_POST['id']);
+    public function editCategory()
+    {
 
-    $sql = "UPDATE `categories` SET `name`='{$name}' WHERE `id`={$_POST['id']}";
+        if (isset($_POST['name'])
+            && ($_POST['id'])) {
+            $name = $this->connect->real_escape_string($_POST['name']);
+            $id = $this->connect->real_escape_string($_POST['id']);
 
-    if ($result = $this->connect->query($sql)) {
-        echo "Статья была изменена";
-    } else {
-        echo "Извините, возникла проблема в работе сайта.";
-        echo $this->connect->error;
-        exit;
-    }
-}
-else {
+            $sql = "UPDATE `categories` SET `name`='{$name}' WHERE `id`={$_POST['id']}";
 
-    $sql = "SELECT * FROM categories WHERE id={$_GET['id']}";
+            if ($result = $this->connect->query($sql)) {
+                echo "Статья была изменена";
+            } else {
+                echo "Извините, возникла проблема в работе сайта.";
+                echo $this->connect->error;
+                exit;
+            }
+        } else {
 
-    if (!$result = $this->connect->query($sql)) {
-        echo "Извините, возникла проблема в работе сайта.";
-        echo $this->connect -> error;
-        exit;
-    }
-    $a = $result->fetch_assoc();
+            $sql = "SELECT * FROM categories WHERE id={$_GET['id']}";
+
+            if (!$result = $this->connect->query($sql)) {
+                echo "Извините, возникла проблема в работе сайта.";
+                echo $this->connect->error;
+                exit;
+            }
+            $a = $result->fetch_assoc();
 
 
+            $ret = '';
 
-    ?>
 
-    <html lang="ru">
-    <body>
-    <main class="main">
-        <div class="container">
-            <h1 class="title">Main page title</h1>
-            <div class="row">
-                <div class="col col--center">
-                    <a href=""></a>
-
-                    <form action="../admin/edit_categories.php" method="post">
-                        <input type="hidden" name="id" value="<?= $a['id']?>">
+            $ret .= '  <form action="../admin/edit_categories.php" method="post">
+                        <input type="hidden" name="id" value="' .= $a['id'] . '">
                         <label for="categories">Заголовок</label><br>
-                        <input type="text" name="name" size="70" value="<?php echo $a['name'];?>"><br><br>
+                        <input type="text" name="name" size="70" value="' . $a['name'] . '"><br><br>
                         <input type="submit" name="submit"><br><br>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </main>
-    <footer class="footer">
-        <div class="container">
-            <div>Copyright &copy; 2018</div>
-        </div>
-    </footer>
-    </body>
-    </html>
-<?php
+                    </form>';
+
+
+        }
+        return $ret;
+    }
 }
-}
-}
+
 ?>
 
