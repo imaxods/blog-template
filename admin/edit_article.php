@@ -21,9 +21,9 @@ if (isset($_POST['title'])
 && ($_POST['category_id'])
 && ($_POST['date'])
 && ($_POST['text'])) {
- $article->updateArticle(); }
+ $article->updateArticle($_POST['title'], $_POST['id'], $_POST['date'], $_POST['text'], $_POST['category_id']); }
 else{
-echo $article->editArticle();
+echo $article->editArticle($_GET['id']);
 }
 ?>
             </div>

@@ -143,11 +143,11 @@ class Categories
     }
 
 
-    public function addCategory()
+    public function addCategory($name)
     {
-        if (isset($_POST['name'])) {
+        if (isset($name)) {
 
-            $name = $this->connect->real_escape_string($_POST['name']);
+            $name = $this->connect->real_escape_string($name);
 
             $sql = "INSERT INTO `categories` (`name`) VALUES ('{$name}')";
 
@@ -166,31 +166,32 @@ class Categories
             $ret .= ' <form action="../admin/add_category.php" method="post">
                                 <label for="category">Категория</label><br>
                                 <input type="text" name="name" size="10" maxlength="10"><br><br>
-                                <input type="submit" name="submit"><br><br>';
+                                <input type="submit" name="submit"><br><br>
+                                </form>';
 
-            return $ret;
 
+
+        }
+        return $ret;
+    }
+    public function editCategoryIfSet($name, $id){
+        $name = $this->connect->real_escape_string($name);
+        $id = $this->connect->real_escape_string($id);
+
+        $sql = "UPDATE `categories` SET `name`='{$name}' WHERE `id`={$id}";
+
+        if ($result = $this->connect->query($sql)) {
+            echo "Статья была изменена";
+        } else {
+            echo "Извините, возникла проблема в работе сайта.";
+            echo $this->connect->error;
+            exit;
         }
     }
 
-    public function editCategory()
+    public function editCategory($id)
     {
 
-        if (isset($_POST['name'])
-            && ($_POST['id'])) {
-            $name = $this->connect->real_escape_string($_POST['name']);
-            $id = $this->connect->real_escape_string($_POST['id']);
-
-            $sql = "UPDATE `categories` SET `name`='{$name}' WHERE `id`={$_POST['id']}";
-
-            if ($result = $this->connect->query($sql)) {
-                echo "Статья была изменена";
-            } else {
-                echo "Извините, возникла проблема в работе сайта.";
-                echo $this->connect->error;
-                exit;
-            }
-        } else {
 
             $sql = "SELECT * FROM categories WHERE id={$_GET['id']}";
 
@@ -205,15 +206,15 @@ class Categories
             $ret = '';
 
 
-            $ret .= '  <form action="../admin/edit_categories.php" method="post">
-                        <input type="hidden" name="id" value="' .= $a['id'] . '">
+            $ret.= '  <form action="../admin/edit_categories.php" method="post">
+                        <input type="hidden" name="id" value="' . $a['id'] . '">
                         <label for="categories">Заголовок</label><br>
                         <input type="text" name="name" size="70" value="' . $a['name'] . '"><br><br>
                         <input type="submit" name="submit"><br><br>
                     </form>';
 
 
-        }
+
         return $ret;
     }
 }

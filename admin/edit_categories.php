@@ -12,7 +12,12 @@ $category = new Categories($connection)
             <div class="col col--center">
                 <a href=""></a>
                 <?php
-               echo $category->editCategory();
+                if (isset($_POST['name'])
+                && ($_POST['id'])) {
+                    $category->editCategoryIfSet($_POST['name'], $_POST['id']); }
+                else{
+                    echo $category->editCategory($_GET['id']);}
+
                 ?>
             </div>
         </div>

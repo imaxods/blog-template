@@ -177,13 +177,13 @@ class Articles
         return $ret;
     }
 
-    public function updateArticle()
+    public function updateArticle($title, $id, $date, $text, $category_id)
     {
-        $title = $this->connect->real_escape_string($_POST['title']);
-        $id = $this->connect->real_escape_string($_POST['id']);
-        $date = $this->connect->real_escape_string($_POST['date']);
-        $text = $this->connect->real_escape_string($_POST['text']);
-        $category_id = $this->connect->real_escape_string($_POST['category_id']);
+        $title = $this->connect->real_escape_string($title);
+        $id = $this->connect->real_escape_string($id);
+        $date = $this->connect->real_escape_string($date);
+        $text = $this->connect->real_escape_string($text);
+        $category_id = $this->connect->real_escape_string($category_id);
 
         $sql = "UPDATE `articles` SET `title`='{$title}',`date`='{$date}',`text`='{$text}',`category_id`='{$category_id}' WHERE `id`={$id}";
 
@@ -197,11 +197,11 @@ class Articles
 
     }
 
-    public function editArticle()
+    public function editArticle($id)
     {
 
 
-        $sql = "SELECT * FROM articles WHERE id={$_GET['id']}";
+        $sql = "SELECT * FROM articles WHERE id={$id}";
 
         if (!$result = $this->connect->query($sql)) {
             echo 'Извините, возникла проблема в работе сайта.';

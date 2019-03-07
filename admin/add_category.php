@@ -13,9 +13,9 @@ require_once '../classes/Categories.php';
                 <a href=""></a>
                 <?php
                 $category = new Categories($connection);
-               echo $category->addCategory();
+               echo $category->addCategory($_POST['name']);
                 ?>
-                </form>
+
             </div>
         </div>
     </div>
