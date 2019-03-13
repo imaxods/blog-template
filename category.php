@@ -18,7 +18,7 @@ $category3=new Categories($connection);
 <main class="main">
     <div class="container">
         <h1 class="title"> <?php
-           echo   $category3->getCategoryName(); ?></h1>
+           echo   $category3->getCategoryName($_GET['category_id']); ?></h1>
         <div class="row">
             <div class="col col--center">
                 <a href=""></a>

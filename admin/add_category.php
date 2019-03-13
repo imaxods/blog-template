@@ -2,6 +2,7 @@
 
 require_once '../mysqlconnection.php';
 require_once '../classes/Categories.php';
+$category = new Categories($connection);
 ?>
 <html lang="ru">
 <body>
@@ -12,8 +13,14 @@ require_once '../classes/Categories.php';
             <div class="col col--center">
                 <a href=""></a>
                 <?php
-                $category = new Categories($connection);
-               echo $category->addCategory($_POST['name']);
+                if (isset($_POST['name'])) {
+                    $category->addCategoryIfIsset($_POST['name']);
+
+                } else {
+                    echo $category->addCategoryElse();
+                }
+
+
                 ?>
 
             </div>

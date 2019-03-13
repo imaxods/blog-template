@@ -1,7 +1,6 @@
 <?php
 require_once 'Categories.php';
-
-
+namespace\Articles::class;
 class Articles
 {
 
@@ -54,7 +53,7 @@ class Articles
         <div class="article-block__date">' .
                 $articles['date'] .
                 '</div>
-        <div class="article-block__comments"><a href=""><span>Comments &nbsp;</span><span></span></a></div>
+        <div class="article-block__comments"><a href="../comment.php?articles_id=' . $articles['id'] . '"><span>Comments &nbsp;</span><span></span></a></div>
     </div>
 </article>';
 
@@ -146,14 +145,29 @@ class Articles
         $ret .= '</select>';
         return $ret;
     }
+    public function addArticleAdding(){
 
-    public function addArticle()
+    $title = $this->connect->real_escape_string($_POST['title']);
+    $category = $this->connect->real_escape_string($_POST['category_id']);
+    $date = $this->connect->real_escape_string($_POST['date']);
+    $text = $this->connect->real_escape_string($_POST['text']);
+
+    $sql = "INSERT INTO `articles` (`title`, `date`, `text`, `category_id`) VALUES ('{$title}', '{$date}','{$text}','{$category}')";
+
+    if ($result = $this->connect->query($sql)) {
+        echo "Cтатья была добавлена";
+        $articleSaved = true;
+    } else {
+        echo "Извините, возникла проблема в работе сайта.";
+        echo $this->connect->error;
+        exit;
+    }
+}
+
+
+    public function addArticleForm()
     {
-
-
-        // POST  заменить / if isset перенести из метода / переменной а быть не должно
         $articleSaved = false;
-
 
         $category1 = new Categories($this->connect);
 

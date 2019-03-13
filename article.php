@@ -9,8 +9,7 @@ $category2 = new Categories($connection);
 $article = $article2->getArticleFullText($_GET['id'])
 ?>
 <html lang="ru">
-<?php
-head();
+<?php head();
 ?>
 <body>
 
@@ -21,7 +20,7 @@ showMenu();
 <main class="main">
     <div class="container">
         <h1 class="title"> <?php
-            echo $article['category_id']; ?></h1>
+            echo $article['title']; ?></h1>
         <div class="row">
             <div class="col col--center">
                 <a href=""></a>

@@ -1,5 +1,5 @@
 <?php
-
+namespace\Categories::class;
 class Categories
 {
     /**
@@ -23,7 +23,7 @@ class Categories
             exit;
         }
         $ret = '';
-        $ret = $ret . '<div class="col col--side">
+        $ret .='<div class="col col--side">
     <div class="category-block">
         <div class="category-block__title">categories</div>';
 
@@ -51,10 +51,10 @@ class Categories
         return $category['name'];
     }
 
-    public function getCategoryName()
+    public function getCategoryName($category_id)
     {
 
-        $sql1 = "SELECT * FROM `categories` WHERE id={$_GET['category_id']}";
+        $sql1 = "SELECT * FROM `categories` WHERE id={$category_id}";
         if (!$result1 = $this->connect->query($sql1)) {
             echo 'Извините, возникла проблема в работе сайта.';
             echo $this->connect->error;
@@ -142,39 +142,38 @@ class Categories
         }
     }
 
-
-    public function addCategory($name)
+    public function addCategoryIfIsset($name)
     {
-        if (isset($name)) {
+        $name = $this->connect->real_escape_string($name);
 
-            $name = $this->connect->real_escape_string($name);
+        $sql = "INSERT INTO `categories` (`name`) VALUES ('{$name}')";
 
-            $sql = "INSERT INTO `categories` (`name`) VALUES ('{$name}')";
+        if ($result = $this->connect->query($sql)) {
+            echo 'Категория была добавлена';
 
-            if ($result = $this->connect->query($sql)) {
-                echo 'Категория была добавлена';
-
-            } else {
-                echo 'Извините, возникла проблема в работе сайта.';
-                echo $this->connect->error;
-                exit;
-            }
         } else {
-            $ret = '';
+            echo 'Извините, возникла проблема в работе сайта.';
+            echo $this->connect->error;
+            exit;
+        }
+    }
 
 
-            $ret .= ' <form action="../admin/add_category.php" method="post">
+    public function addCategoryElse()
+    {
+
+        $ret = ' <form action="../admin/add_category.php" method="post">
                                 <label for="category">Категория</label><br>
                                 <input type="text" name="name" size="10" maxlength="10"><br><br>
                                 <input type="submit" name="submit"><br><br>
                                 </form>';
 
 
-
-        }
         return $ret;
     }
-    public function editCategoryIfSet($name, $id){
+
+    public function editCategoryIfSet($name, $id)
+    {
         $name = $this->connect->real_escape_string($name);
         $id = $this->connect->real_escape_string($id);
 
@@ -193,26 +192,25 @@ class Categories
     {
 
 
-            $sql = "SELECT * FROM categories WHERE id={$_GET['id']}";
+        $sql = "SELECT * FROM categories WHERE id={$_GET['id']}";
 
-            if (!$result = $this->connect->query($sql)) {
-                echo "Извините, возникла проблема в работе сайта.";
-                echo $this->connect->error;
-                exit;
-            }
-            $a = $result->fetch_assoc();
-
-
-            $ret = '';
+        if (!$result = $this->connect->query($sql)) {
+            echo "Извините, возникла проблема в работе сайта.";
+            echo $this->connect->error;
+            exit;
+        }
+        $a = $result->fetch_assoc();
 
 
-            $ret.= '  <form action="../admin/edit_categories.php" method="post">
+        $ret = '';
+
+
+        $ret .= '  <form action="../admin/edit_categories.php" method="post">
                         <input type="hidden" name="id" value="' . $a['id'] . '">
                         <label for="categories">Заголовок</label><br>
                         <input type="text" name="name" size="70" value="' . $a['name'] . '"><br><br>
                         <input type="submit" name="submit"><br><br>
                     </form>';
-
 
 
         return $ret;

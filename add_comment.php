@@ -1,7 +1,7 @@
 <?php
-require_once '../mysqlconnection.php';
-require_once '../classes/Articles.php';
-$article = new Articles($connection);
+require_once 'mysqlconnection.php';
+require_once './classes/Comments.php';
+$comment = new Comments($connection);
 ?>
 
 <html lang="ru">
@@ -17,14 +17,13 @@ $article = new Articles($connection);
 
                 <?php
                 if (isset($_POST['title'])
-                    && isset($_POST['category_id'])
                     && isset($_POST['date'])
                     && isset($_POST['text'])
                 ) {
+                     $comment->addCommentAdding();
 
-                    $article->addArticleAdding();
                 } else {
-                    echo $article->addArticleForm();
+                    echo $comment->addCommentForm();
                 }
 
                 ?>

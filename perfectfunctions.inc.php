@@ -43,22 +43,6 @@ function head()
     <link rel="stylesheet" href="css/main.css">
 </head>';
 }
-/*
-function selectCategories($selectedCategoryId = null)
-{
-    $result = getCategories();
 
-    echo '<select name="category_id" id="category_id">';
-    while ($category = $result->fetch_assoc()) {
-        if ($category['id'] == $selectedCategoryId) {
-            echo "<option value=\"{$category['id']}\" selected='selected'>{$category['name']}</option>";
-        } else {
-            echo "<option value=\"{$category['id']}\">{$category['name']}</option>";
-        }
-    };
-
-    echo '</select>';
-}
-*/
 
 ?>
