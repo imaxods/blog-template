@@ -1,6 +1,6 @@
 <?php
 require_once 'Categories.php';
-namespace\Articles::class;
+
 class Articles
 {
 
@@ -31,8 +31,9 @@ class Articles
 
         $ret = '';
         while ($articles = $result->fetch_assoc()) {
-            $category2 = new Categories($this->connect);
-            $categoryName = $category2->getCategory($articles['category_id']);
+
+            $category = new Categories($this->connect);
+            $categoryName = $category->getCategory($articles['category_id']);
 
             $ret = $ret . '<article class="article-block">
     <div class="article-block__body">
@@ -145,24 +146,26 @@ class Articles
         $ret .= '</select>';
         return $ret;
     }
-    public function addArticleAdding(){
 
-    $title = $this->connect->real_escape_string($_POST['title']);
-    $category = $this->connect->real_escape_string($_POST['category_id']);
-    $date = $this->connect->real_escape_string($_POST['date']);
-    $text = $this->connect->real_escape_string($_POST['text']);
+    public function addArticleAdding()
+    {
 
-    $sql = "INSERT INTO `articles` (`title`, `date`, `text`, `category_id`) VALUES ('{$title}', '{$date}','{$text}','{$category}')";
+        $title = $this->connect->real_escape_string($_POST['title']);
+        $category = $this->connect->real_escape_string($_POST['category_id']);
+        $date = $this->connect->real_escape_string($_POST['date']);
+        $text = $this->connect->real_escape_string($_POST['text']);
 
-    if ($result = $this->connect->query($sql)) {
-        echo "Cтатья была добавлена";
-        $articleSaved = true;
-    } else {
-        echo "Извините, возникла проблема в работе сайта.";
-        echo $this->connect->error;
-        exit;
+        $sql = "INSERT INTO `articles` (`title`, `date`, `text`, `category_id`) VALUES ('{$title}', '{$date}','{$text}','{$category}')";
+
+        if ($result = $this->connect->query($sql)) {
+            echo "Cтатья была добавлена";
+            $articleSaved = true;
+        } else {
+            echo "Извините, возникла проблема в работе сайта.";
+            echo $this->connect->error;
+            exit;
+        }
     }
-}
 
 
     public function addArticleForm()

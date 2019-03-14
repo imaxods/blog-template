@@ -1,5 +1,6 @@
 <?php
-namespace\Articles::class;
+
+require_once 'Articles.php';
 class Comments
 {
     /**

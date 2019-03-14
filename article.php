@@ -4,9 +4,9 @@ require_once './classes/Articles.php';
 require_once './classes/Categories.php';
 require_once 'mysqlconnection.php';
 
-$article2 = new Articles($connection);
-$category2 = new Categories($connection);
-$article = $article2->getArticleFullText($_GET['id'])
+$article = new Articles($connection);
+$category = new Categories($connection);
+$article = $article->getArticleFullText($_GET['id'])
 ?>
 <html lang="ru">
 <?php head();
@@ -34,7 +34,7 @@ showMenu();
                         </div>
                         <div class="article-block__category article-label">
                             <?php
-                            echo $category2->getCategory($article['category_id']); ?>
+                            echo $category->getCategory($article['category_id']); ?>
                         </div>
                         <div class="article-block__text">
                             <?php echo $article['text']; ?>
@@ -50,8 +50,8 @@ showMenu();
                 </article>
 
             </div>
-            <?php $category1 = new Categories($connection);
-            echo $category1->showCategories(); ?>
+            <?php
+            echo $category->showCategories(); ?>
         </div>
     </div>
 

@@ -1,5 +1,5 @@
 <?php
-namespace\Categories::class;
+
 class Categories
 {
     /**
