@@ -1,10 +1,10 @@
 <?php
-
+namespace classes;
 require_once 'Articles.php';
 class Comments
 {
     /**
-     * @var mysqli
+     * @var \mysqli
      */
     protected $connect;
 

@@ -1,7 +1,7 @@
 <?php
 require_once 'mysqlconnection.php';
 require_once './classes/Comments.php';
-$comment = new Comments($connection);
+$comment = new classes\Comments($connection);
 ?>
 
 <html lang="ru">

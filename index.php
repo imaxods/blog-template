@@ -1,10 +1,11 @@
-<!DOCTYPE html>
 <?php
+require_once 'vendor/autoload.php';
 require_once 'perfectfunctions.inc.php';
-require_once './classes/Articles.php';
-require_once './classes/Categories.php';
 require_once 'mysqlconnection.php';
+
 ?>
+<!DOCTYPE html>
+
 <html lang="ru">
 <?php
 head();
@@ -21,12 +22,12 @@ showMenu();
             <div class="col col--center">
                 <a href=""></a>
                 <?php
-                $article1 = new Articles($connection);
+                $article1 = new classes\Articles($connection);
                echo $article1->showArticlesText();
                 ?>
             </div>
             <?php
-            $category1 = new Categories($connection);
+            $category1 = new classes\Categories($connection);
            echo $category1->showCategories();
             ?>
         </div>

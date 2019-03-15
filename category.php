@@ -6,8 +6,8 @@ require_once './classes/Articles.php';
 <html lang="ru">
 
 <?php head();
-$article=new Articles($connection);
-$category=new Categories($connection);
+$article=new classes\Articles($connection);
+$category=new classes\Categories($connection);
 ?>
 
 <body>
@@ -22,14 +22,14 @@ $category=new Categories($connection);
         <div class="row">
             <div class="col col--center">
                 <a href=""></a>
-          <?php  $article=new Articles($connection);
+          <?php  $article=new classes\Articles($connection);
         echo  $article->showArticlesText($_GET['category_id']);
            ?>
 
             </div>
 
             <?php
-            $category=new Categories($connection);
+            $category=new classes\Categories($connection);
            echo $category->showCategories()
              ?>
         </div>

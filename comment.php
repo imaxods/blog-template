@@ -4,14 +4,15 @@ require 'perfectfunctions.inc.php';
 require_once './classes/Articles.php';
 require_once './classes/Categories.php';
 require_once './classes/Comments.php';
-$comment = new Comments($connection);
-$article = new Articles($connection);
-$category = new Categories($connection);
+$comment = new classes\Comments($connection);
+$article = new classes\Articles($connection);
+$category = new classes\Categories($connection);
 ?>
 <html lang="ru">
 
-<?php head();
-$category=new Categories($connection);
+<?php
+head();
+
 ?>
 
 <body>
@@ -33,7 +34,7 @@ $category=new Categories($connection);
             </div>
 
             <?php
-            $category=new Categories($connection);
+
            echo $category->showCategories()
              ?>
         </div>

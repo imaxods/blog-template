@@ -4,8 +4,8 @@ require_once './classes/Articles.php';
 require_once './classes/Categories.php';
 require_once 'mysqlconnection.php';
 
-$article = new Articles($connection);
-$category = new Categories($connection);
+$article = new classes\Articles($connection);
+$category = new classes\Categories($connection);
 $article = $article->getArticleFullText($_GET['id'])
 ?>
 <html lang="ru">

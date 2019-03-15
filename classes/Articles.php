@@ -1,11 +1,12 @@
 <?php
+namespace classes;
 require_once 'Categories.php';
 
 class Articles
 {
 
     /**
-     * @var mysqli
+     * @var \mysqli
      */
     protected $connect;
 

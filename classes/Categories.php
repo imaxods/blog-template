@@ -1,9 +1,9 @@
 <?php
-
+namespace classes;
 class Categories
 {
     /**
-     * @var mysqli
+     * @var \mysqli
      */
     protected $connect;
 

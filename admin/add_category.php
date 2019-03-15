@@ -2,7 +2,7 @@
 
 require_once '../mysqlconnection.php';
 require_once '../classes/Categories.php';
-$category = new Categories($connection);
+$category = new classes\Categories($connection);
 ?>
 <html lang="ru">
 <body>
