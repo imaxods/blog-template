@@ -1,6 +1,8 @@
 <?php
+
 namespace classes;
-require_once 'Articles.php';
+
+
 class Comments
 {
     /**
@@ -29,7 +31,7 @@ class Comments
     public function showCommentText($articles_id)
     {
 
-            $sql = "SELECT * FROM comments WHERE articles_id={$articles_id}";
+        $sql = "SELECT * FROM comments WHERE articles_id={$articles_id}";
 
 
         if (!$result = $this->connect->query($sql)) {
@@ -40,16 +42,12 @@ class Comments
 
         $ret = '';
         while ($comment = $result->fetch_assoc()) {
-            $article = new Articles($this->connect);
-            $articleName = $article->getArticleFullText($comment['articles_id']);
+
 
             $ret = $ret . '<article class="article-block">
     <div class="article-block__body">
         <div class="article-block__title">
-            <h2><a href="article.php?id=' . $comment['id'] . '"> ' .
-
-                $articleName['title'] .
-                ' </a></h2>
+           
         </div>
         <div class="article-block__category article-label">' .
                 $comment['author'] .
@@ -62,7 +60,7 @@ class Comments
         <div class="article-block__date">' .
                 $comment['date'] .
                 '</div>
-        <div class="article-block__comments"><a href="../add_comment.php"><span>Add Comments &nbsp;</span><span></span></a></div>
+        <div class="article-block__comments"><a href="../delete_comment.php"><span>Delete Comments</span><span></span></a></div>
     </div>
 </article>';
 
@@ -70,16 +68,18 @@ class Comments
         }
         return $ret;
     }
-    public function addCommentAdding(){
+
+    public function addCommentAdding()
+    {
 
         $author = $this->connect->real_escape_string($_POST['author']);
         $date = $this->connect->real_escape_string($_POST['date']);
         $text = $this->connect->real_escape_string($_POST['text']);
-
-        $sql = "INSERT INTO `comments` (`text`,`date`,`author`) VALUES ('{$text}','{$date}','{$author}')";
+        $articles_id = $_GET['id'];
+        $sql = "INSERT INTO `comments` (`text`,`date`,`author`,`articles_id`) VALUES ('{$text}','{$date}','{$author}','{$articles_id}')";
 
         if ($result = $this->connect->query($sql)) {
-            echo 'Cтатья была добавлена';
+            echo 'Коментарий была добавлена';
             $articleSaved = true;
         } else {
             echo 'Извините, возникла проблема в работе сайта.';
@@ -98,7 +98,7 @@ class Comments
             echo 'Cтатья была добавлена';
         } else {
             $ret = '';
-            $ret .= '<form action="../add_comment.php" method="post">
+            $ret .= '<form      method="post">
                                 <label for="title">Имя</label><br>
                                 <input type="text" name="author" size="70"><br><br>
                                 <label for="date">Дата</label><br>
@@ -110,6 +110,17 @@ class Comments
         }
         return $ret;
     }
+    public function deleteComment($id)
+    {
+        $sql = "DELETE FROM comments WHERE articles_id={$id}";
 
+        if ($result = $this->connect->query($sql)) {
+            echo 'Коментарий был удален';
+        } else {
+            echo 'Извините, возникла проблема в работе сайта.';
+            echo $this->connect->error;
+            exit;
+        }
+    }
 
 }

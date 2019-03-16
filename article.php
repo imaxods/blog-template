@@ -1,8 +1,7 @@
 <?php
 require 'perfectfunctions.inc.php';
-require_once './classes/Articles.php';
-require_once './classes/Categories.php';
 require_once 'mysqlconnection.php';
+require_once 'vendor/autoload.php';
 
 $article = new classes\Articles($connection);
 $category = new classes\Categories($connection);
@@ -20,7 +19,7 @@ showMenu();
 <main class="main">
     <div class="container">
         <h1 class="title"> <?php
-            echo $article['title']; ?></h1>
+              echo $category->getCategory($article['category_id']); ?></h1>
         <div class="row">
             <div class="col col--center">
                 <a href=""></a>
@@ -44,10 +43,26 @@ showMenu();
                         <div class="article-block__date">
                             <?php echo $article['date']; ?>
                         </div>
-                        <div class="article-block__comments"><a href=""><span>Comments &nbsp;</span><span></span></a>
-                        </div>
                     </div>
                 </article>
+                <?php
+                $comment = new classes\Comments($connection);
+                echo $comment->showCommentText($article['id']);
+
+                if (isset($_POST['author'])) {
+                    $comment->addCommentAdding();
+                } else {
+                    echo $comment->addCommentForm();
+                }
+
+
+                // $comment = classes\Comments($connection);
+                //article_id при добавлении
+                //в add for article_id - GET[id]
+                // в форме убрать action
+                //$comment->showcommenttext($article[id]
+                ?>
+
 
             </div>
             <?php

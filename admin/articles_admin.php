@@ -1,6 +1,6 @@
 <?php
 require_once '../mysqlconnection.php';
-require_once '../classes/Articles.php';
+require_once '../vendor/autoload.php';
 ?>
 
 

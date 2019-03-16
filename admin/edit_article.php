@@ -1,8 +1,7 @@
 <?php
 require_once '../mysqlconnection.php';
-require_once '../classes/Articles.php';
-require_once '../classes/Categories.php';
-$article=new Articles($connection);
+require_once '../vendor/autoload.php';
+$article=new classes\Articles($connection);
 ?>
 
 <html lang="ru">

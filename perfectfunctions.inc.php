@@ -22,7 +22,7 @@ function showMenu()
     while ($menu = $result->fetch_assoc()) {
 
         echo
-            ' <li class="nav__item"><a class="nav__link" href="' . $menu['limk'] . '"target="_blank">' . $menu['title'] . '</a></li>';
+            ' <li class="nav__item"><a class="nav__link" href="' . $menu['link'] . '"target="_blank">' . $menu['title'] . '</a></li>';
     }
     echo
     ' </nav>

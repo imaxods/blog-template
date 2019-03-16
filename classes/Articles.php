@@ -1,6 +1,6 @@
 <?php
 namespace classes;
-require_once 'Categories.php';
+
 
 class Articles
 {
@@ -55,7 +55,7 @@ class Articles
         <div class="article-block__date">' .
                 $articles['date'] .
                 '</div>
-        <div class="article-block__comments"><a href="../comment.php?articles_id=' . $articles['id'] . '"><span>Comments &nbsp;</span><span></span></a></div>
+      
     </div>
 </article>';
 

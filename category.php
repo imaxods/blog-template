@@ -1,7 +1,6 @@
 <?php
+require_once 'vendor/autoload.php';
 require_once 'perfectfunctions.inc.php';
-require_once './classes/Categories.php';
-require_once './classes/Articles.php';
 ?>
 <html lang="ru">
 
@@ -22,14 +21,14 @@ $category=new classes\Categories($connection);
         <div class="row">
             <div class="col col--center">
                 <a href=""></a>
-          <?php  $article=new classes\Articles($connection);
+          <?php
         echo  $article->showArticlesText($_GET['category_id']);
            ?>
 
             </div>
 
             <?php
-            $category=new classes\Categories($connection);
+
            echo $category->showCategories()
              ?>
         </div>
