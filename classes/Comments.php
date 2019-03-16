@@ -60,7 +60,7 @@ class Comments
         <div class="article-block__date">' .
                 $comment['date'] .
                 '</div>
-        <div class="article-block__comments"><a href="../delete_comment.php"><span>Delete Comments</span><span></span></a></div>
+        <div class="article-block__comments"><a href="../delete_comment.php?id=' .  $comment['id'] . '"><span>Delete Comments</span><span></span></a></div>
     </div>
 </article>';
 
@@ -112,7 +112,7 @@ class Comments
     }
     public function deleteComment($id)
     {
-        $sql = "DELETE FROM comments WHERE articles_id={$id}";
+        $sql = "DELETE FROM comments WHERE id={$id}";
 
         if ($result = $this->connect->query($sql)) {
             echo 'Коментарий был удален';

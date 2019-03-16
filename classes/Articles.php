@@ -22,6 +22,7 @@ class Articles
             $sql = "SELECT * FROM `articles`";
         } else {
             $sql = "SELECT * FROM articles WHERE category_id={$categoryId}";
+
         }
 
         if (!$result = $this->connect->query($sql)) {
@@ -39,7 +40,7 @@ class Articles
             $ret = $ret . '<article class="article-block">
     <div class="article-block__body">
         <div class="article-block__title">
-            <h2><a href="article.php?id=' . $articles['id'] . '"> ' .
+            <h2><a href="article.php?id=' . $articles['id']  . '"> ' .
 
                 $articles['title'] .
                 ' </a></h2>
