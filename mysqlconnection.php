@@ -5,8 +5,7 @@ if ($_SERVER['REMOTE_ADDR'] == '127.0.0.1') {
     $database = 'blog';
 
 } else {
-    //$connection = mysqli_connect('localhost', 'nikosid_imaxods', 'F%{*T2;{eeti', 'nikosid_imaxods');
-    // $connection = mysqli_connect('localhost', 'max@max.nikosid.com', '123123Max', 'nikosid_imaxods');
+
     $user = 'nikosid_imaxods';
     $password = 'F%{*T2;{eeti';
     $database = 'nikosid_imaxods';
